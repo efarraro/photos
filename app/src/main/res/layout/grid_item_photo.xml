@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:layout_width="120dp"
+    android:layout_height="120dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <ImageView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/grid_item_photo_root"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:padding="2dp"
+        android:scaleType="fitXY"
+        android:background="@android:color/darker_gray"/>
+
+</RelativeLayout>
