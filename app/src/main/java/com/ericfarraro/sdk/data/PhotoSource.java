@@ -26,7 +26,7 @@ public abstract class PhotoSource {
      * Search photos (if applicable)
      * @param query A search query string
      */
-    public abstract void searchPhotos(String query);
+    public abstract void searchPhotos(String query, int page);
 
     /**
      * Gets a {@link com.ericfarraro.sdk.models.Photo} from the {@link com.ericfarraro.sdk.data.PhotoSource}, given some identifier
@@ -35,6 +35,9 @@ public abstract class PhotoSource {
      */
     public abstract void getLargePhoto(String identifier);
 
+    /**
+     * @return A human readable name identifying the PhotoSource (eg: 'Flickr')
+     */
     public abstract String getPhotoSourceName();
 
     public boolean isSearchSupported() { return false; }

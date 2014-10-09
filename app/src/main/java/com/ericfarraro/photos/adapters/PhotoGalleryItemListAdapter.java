@@ -48,10 +48,10 @@ public class PhotoGalleryItemListAdapter extends ArrayAdapter<Photo> {
         // store a reference to the image's URL so that we can retrieve it later
         image.setTag(photo.getUrl());
 
-        if(PhotoCache.getInstance().get(photo.getUrl()) != null)
+        if(PhotoCache.getInstance().get(photo.getUrl()) != null) {
             image.setImageBitmap(PhotoCache.getInstance().get(photo.getUrl()));
-        else {
-            mImageDownloadHandler.queueImageUrl(image, getItem(position).getUrl());
+        } else {
+            mImageDownloadHandler.queueImageUrl(image, photo.getUrl());
         }
 
         return convertView;

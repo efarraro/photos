@@ -6,4 +6,5 @@
     <string name="action_settings">Settings</string>
     <string name="title_activity_photo_detail">Photo details</string>
     <string name="search_source">Search %s</string>
+    <string name="menu_action_share">Share</string>
 </resources>

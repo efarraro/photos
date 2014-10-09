@@ -26,6 +26,8 @@ import java.util.ArrayList;
  */
 public class FlickrPhotoSource extends PhotoSource implements PhotoListRequestCompleted {
 
+    public static final String TAG = "FlickrPhotoSource";
+
     public static final String ENDPOINT ="https://api.flickr.com/services/rest/";
     private static final String API_KEY = "4c279506ba25a863b18568fe644f8a78";
     private static final String METHOD_GET_RECENT = "flickr.photos.getRecent";
@@ -59,6 +61,8 @@ public class FlickrPhotoSource extends PhotoSource implements PhotoListRequestCo
                 .appendQueryParameter(PARAM_PAGE, Integer.toString(page))
                 .appendQueryParameter(PARAM_EXTRAS, EXTRA_SMALL_URL).build().toString();
 
+        Log.d(TAG, url);
+
         task.execute(url);
     }
 
@@ -68,8 +72,29 @@ public class FlickrPhotoSource extends PhotoSource implements PhotoListRequestCo
     }
 
     @Override
-    public void searchPhotos(String query) {
-        // TODO
+    public void searchPhotos(String query, int page) {
+
+        // Documentation: https://www.flickr.com/services/api/flickr.photos.search.html
+
+        UrlFetchTask task = new UrlFetchTask();
+        task.setListener(new UrlContentRetrieved() {
+            @Override
+            public void onUrlContentRetrieved(String content) {
+                parseResults(content);
+            }
+        });
+
+        String url = Uri.parse(ENDPOINT).buildUpon()
+                .appendQueryParameter("method", METHOD_SEARCH)
+                .appendQueryParameter("api_key", API_KEY)
+                .appendQueryParameter(PARAM_TEXT, query)
+                .appendQueryParameter(PARAM_PER_PAGE, Integer.toString(mPhotosPerPage))
+                .appendQueryParameter(PARAM_PAGE, Integer.toString(page))
+                .appendQueryParameter(PARAM_EXTRAS, EXTRA_SMALL_URL).build().toString();
+
+        Log.d(TAG, url);
+
+        task.execute(url);
     }
 
     @Override
@@ -159,12 +184,15 @@ public class FlickrPhotoSource extends PhotoSource implements PhotoListRequestCo
      */
     protected void parseResults(String xml) {
 
+        xml = xml.replaceAll("\n", "");
+
         ArrayList<Photo> photos = new ArrayList<Photo>();
 
         try {
             XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
             XmlPullParser parser = factory.newPullParser();
             parser.setInput(new StringReader(xml));
+            // TODO need to set UTF-8 encoding here?
 
             // iterate over the XML response, parsing the result
             int eventType = parser.next();

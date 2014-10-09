@@ -60,6 +60,9 @@ public class ImageDownloader extends HandlerThread {
 
         final String url = mRequestMap.get(imageView);
 
+        if(url == null)
+            return;
+
         try {
             byte[] imageBytes = Utility.getBytesForUrl(url);
             final Bitmap bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.length);
@@ -81,9 +84,20 @@ public class ImageDownloader extends HandlerThread {
             });
         } catch(IOException e) {
             // some error occurred getting the bytes
-            if(mListener != null) {
-                mListener.onImageDownloadCompleted(imageView, null);
-            }
+
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+
+                    mRequestMap.remove(imageView);
+
+                    // notify listeners
+                    if(mListener != null) {
+                        mListener.onImageDownloadCompleted(imageView, null);
+                    }
+                }
+            });
+
         }
     }
 

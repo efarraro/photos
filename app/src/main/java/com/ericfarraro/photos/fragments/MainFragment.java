@@ -19,6 +19,7 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.ericfarraro.photos.R;
 import com.ericfarraro.photos.activities.PhotoDetailActivity;
@@ -52,6 +53,9 @@ public class MainFragment extends Fragment
     // Handler used to download images
     protected ImageDownloader mImageDownloadHandler;
 
+    // Remember the last query we performed, so that we can restore it after orientation changes
+    protected String mLastSearchQuery;
+
     public MainFragment() {
     }
 
@@ -68,6 +72,9 @@ public class MainFragment extends Fragment
         // setup a default photo source (Flickr) and request a list of images to display by default
         mCurrentPhotoSource = new FlickrPhotoSource();
         mCurrentPhotoSource.setPhotoListRequestCompletedListener(this);
+
+        if(savedInstanceState != null)
+            mLastSearchQuery = savedInstanceState.getString("search");
 
         setHasOptionsMenu(true);
     }
@@ -101,7 +108,10 @@ public class MainFragment extends Fragment
         mGridView.setOnScrollListener(new EndlessScrollListener() {
             @Override
             public void loadMore(int page) {
-                mCurrentPhotoSource.fetchDefaultPhotos(page);
+                if(mLastSearchQuery == null)
+                    mCurrentPhotoSource.fetchDefaultPhotos(page);
+                else
+                    mCurrentPhotoSource.searchPhotos(mLastSearchQuery, page);
             }
         });
 
@@ -127,13 +137,18 @@ public class MainFragment extends Fragment
             mAdapter = new PhotoGalleryItemListAdapter(getActivity(), photos, mImageDownloadHandler);
             mGridView.setAdapter(mAdapter);
         } else {
-            mAdapter.addAll(photos);
+            if(photos != null)
+                mAdapter.addAll(photos);
+            else
+                Toast.makeText(getActivity(), "Error retrieving results", Toast.LENGTH_SHORT);
         }
     }
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+
+        outState.putString("search", mLastSearchQuery);
     }
 
     @Override
@@ -143,16 +158,31 @@ public class MainFragment extends Fragment
         // Inflate the menu; this adds items to the action bar if it is present.
         getActivity().getMenuInflater().inflate(R.menu.main, menu);
 
+        // Set up the SearchView on the ActionBar
         final SearchView searchView = (SearchView)menu.getItem(0).getActionView();
         searchView.setQueryHint(String.format(getString(R.string.search_source),
                 mCurrentPhotoSource.getPhotoSourceName()));
+
+        // set up a listener for search queries
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+
+                // dismiss the keyboard when the user executes the search
                 InputMethodManager imm = (InputMethodManager)getActivity().
                         getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
-                return false;
+
+                // clear hte current result set
+                mAdapter.clear();
+
+                // remember this query for later
+                mLastSearchQuery = query;
+
+                // retrieve the first page of results
+                mCurrentPhotoSource.searchPhotos(query, 1);
+
+                return true;
             }
 
             @Override
@@ -168,9 +198,7 @@ public class MainFragment extends Fragment
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            return true;
-        }
+   
         return super.onOptionsItemSelected(item);
     }
 }
