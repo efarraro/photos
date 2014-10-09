@@ -25,9 +25,9 @@ Clients using `PhotoSource` should implement the `PhotoListRequestCompleted` int
 * Endless scrolling is implemented by listening to the `OnScroll` event of the `GridView`.  After a certain threshold, the `EndlessScrollListener` increments the page, and notifies listeners that they should load additional results.
 * `ImageDownloader` is a HandlerThread that uses a looper to process image downloads in the background.  Clients can request an image to be downloaded in the background using `queueImageUrl` and can implement the `ImageDownloadCompleted` interface to listen for the resulting bitmap data.
 
-#Visual design
+###Visual design
 * Opacity animations are used to soften the somewhat jarring feel of images 'appearing' while scrolling through the list
-* Photos includes the SearchView within the ActionBar, maximizing the use of screen real-estate for showing the user images
+* Photos includes the `SearchView` within the ActionBar, maximizing the use of screen real-estate for showing the user images
 * Where possible Fragments are used, instead of standalone activities.  Although this isn't quite as important in a small app, this would help to ensure that our fragments could be easily used elsewhere.  This is particularly important when considering alternate layout designs, such as the master-detail view for tablet (note: there is not currently a tablet UI, but this is discussed as a possiblity below)
 
 Limitations
