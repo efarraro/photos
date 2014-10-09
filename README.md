@@ -3,8 +3,7 @@ photos
 
 Photos is a very simple Flickr client.  Users can search Flickr's content by keyword, view large versions of a selected image and share those images with friends.  It is not intended to be a fully featured Flickr client; rather, it aims to demonstrate core Android concepts and best practices.
 
-Building 'Photos'
------
+#####Building 'Photos'
 Photos was built using Android Studio 0.8.2 (beta) and was tested on a Nexus 5
 
 Architecture & Design
