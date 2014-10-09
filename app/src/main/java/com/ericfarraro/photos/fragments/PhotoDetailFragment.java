@@ -17,7 +17,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.ericfarraro.photos.R;
-import com.ericfarraro.sdk.core.ImageDownloader;
+import com.ericfarraro.photos.core.ImageDownloader;
 import com.ericfarraro.sdk.data.FlickrPhotoSource;
 import com.ericfarraro.sdk.data.PhotoSource;
 import com.ericfarraro.sdk.interfaces.ImageDownloadCompleted;

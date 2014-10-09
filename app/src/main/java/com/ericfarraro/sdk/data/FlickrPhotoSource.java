@@ -3,7 +3,6 @@ package com.ericfarraro.sdk.data;
 import android.net.Uri;
 import android.util.Log;
 
-import com.ericfarraro.sdk.FetchPhotoListTask;
 import com.ericfarraro.sdk.interfaces.PhotoListRequestCompleted;
 import com.ericfarraro.sdk.interfaces.UrlContentRetrieved;
 import com.ericfarraro.sdk.models.Photo;

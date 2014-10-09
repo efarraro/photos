@@ -1,6 +1,5 @@
 package com.ericfarraro.sdk.data;
 
-import com.ericfarraro.sdk.FetchPhotoListTask;
 import com.ericfarraro.sdk.interfaces.PhotoListRequestCompleted;
 import com.ericfarraro.sdk.models.Photo;
 

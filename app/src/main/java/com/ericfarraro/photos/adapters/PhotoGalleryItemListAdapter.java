@@ -1,7 +1,6 @@
 package com.ericfarraro.photos.adapters;
 
 import android.content.Context;
-import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +9,7 @@ import android.widget.ImageView;
 
 import com.ericfarraro.photos.R;
 import com.ericfarraro.photos.singletons.PhotoCache;
-import com.ericfarraro.sdk.core.ImageDownloader;
-import com.ericfarraro.sdk.interfaces.ImageDownloadCompleted;
+import com.ericfarraro.photos.core.ImageDownloader;
 import com.ericfarraro.sdk.models.Photo;
 
 import java.util.List;
