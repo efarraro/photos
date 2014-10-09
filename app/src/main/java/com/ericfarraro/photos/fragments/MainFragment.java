@@ -14,6 +14,8 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.GridView;
@@ -87,8 +89,13 @@ public class MainFragment extends Fragment
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    if (isVisible())
+                    if (isVisible()) {
+                        // animating in the image give it a less jarring feel
+                        Animation animation = new AlphaAnimation(0, 1);
+                        animation.setDuration(1000);
                         imageView.setImageBitmap(bitmap);
+                        imageView.startAnimation(animation);
+                    }
 
                     // cache the bitmap data by the ImageView's tag (URL)
                     if(imageView.getTag() != null && bitmap != null)
@@ -198,7 +205,7 @@ public class MainFragment extends Fragment
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-   
+
         return super.onOptionsItemSelected(item);
     }
 }

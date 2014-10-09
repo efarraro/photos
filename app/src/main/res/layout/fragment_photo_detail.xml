@@ -7,15 +7,26 @@
     tools:context="com.ericfarraro.photos.activities.PhotoDetailActivity$PlaceholderFragment">
 
 
-    <ImageView
-        android:id="@+id/photo_detail_image"
-        android:scaleType="fitCenter"
-        android:layout_weight="1"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"/>
+        android:layout_weight="1"
+        android:layout_height="0dp">
+
+        <ImageView
+            android:id="@+id/photo_detail_image"
+            android:scaleType="fitCenter"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ProgressBar
+            android:id="@+id/photo_detail_progress"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </FrameLayout>
 
     <FrameLayout
-        android:background="@color/primary"
+        android:background="@color/dark_gray"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 

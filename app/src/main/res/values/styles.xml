@@ -15,5 +15,6 @@
     </style>
 
     <color name="primary">#03a9f4</color>
+    <color name="dark_gray">#444444</color>
 
 </resources>
